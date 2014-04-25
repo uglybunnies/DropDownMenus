@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>My Drop-Down Menus</title>
+<style type="text/css">
+/* reset styles */
+html, body, h1, ul, li {margin: 0; padding: 0; background: transparent; border: 0; font-size: inherit; outline: 0; vertical-align: baseline;}
+
+/* set styles */
+body {
+	font: 76%/1.5 Tahoma, Arial, Helvetica, sans-serif;
+	background: #f9f9ee;
+}
+
+h1 {
+	padding: .5em;
+	background: #036;
+	color: #fff;
+	font-size: 1.5em;
+}
+#dyMenu {
+	position: relative;
+	list-style: none;
+	width: 100%;
+	height: 24px;
+	background: #396;
+}
+#dyMenu li {
+	position: relative;
+	float: left;
+	padding: 3px 2px 3px 3px;
+	width: 108px;
+	text-align: center;
+	border: solid #fff;
+	border-width: 0 1px 0 0;
+	background: #396;
+}
+#dyMenu li a {
+	font-weight: 700;
+	text-decoration: none;
+	color: #ffa;
+}
+#dyMenu li ul.subMenu {
+    position: absolute;
+    float: none;
+	margin: 0;
+	padding: 0;
+    top: 24px;
+	left: -999em;
+	z-index: 1100;
+	width: auto;
+	height: auto;
+	list-style: none;
+}
+#dyMenu li.over ul.subMenu {
+	left: 0;
+}
+#dyMenu li ul.subMenu li {
+    float: none;
+    margin: 0;
+    border-width: 1px 1px 0 1px;
+	text-align: left;
+}
+#dyMenu li ul.subMenu li.last {
+    border-width: 1px 1px 1px 1px;
+}
+#dyMenu li ul.subMenu li a {
+    padding: 4px 2px 4px 9px;
+    display: block;
+    width: 108px;
+    border-width: 0 0 0 0;
+}
+#dyMenu li.over {
+	background: #6b9;
+}
+</style>
+</head>
+
+<body>
+<h1>My Drop-Down Menus</h1>
+<ul id="dyMenu">
+	<li id="mHome"><a href="#">Home</a></li>
+	<li id="mDesign"><a href="#">Design Studio</a></li>
+	<li id="mArt"><a href="#">Art Studio</a></li>
+	<li id="mBytes"><a href="#">Snake Bytes</a></li>
+	<li id="mArticles"><a href="#">Articles</a></li>
+</ul>
+
+<script type="text/javascript">
+var isDom = (document.getElementById && document.createElement && document.getElementsByTagName);
+
+function initHeaderScripts() {
+// first make sure the script can run on the client browser
+	if (!isDom) return;
+// load the functions below
+	createSubNav();
+	activateMenu();
+}
+
+function createSubNav() {
+// create the submenus based on the parent li id's
+	var menus = 
+	[
+		{
+			itemId:'mDesign',						// id name of the parent li
+			menuItems:									// array of sub menu items
+			[
+				{text:'Web Design', href:'#'},	// text is displayed, href is the path to the file
+				{text:'Flash Design', href:'#'},
+				{text:'Graphic Design', href:'#'}
+			]
+		},
+		{
+			itemId:'mArt',
+			menuItems:
+			[
+				{text:'Photography', href:'#'},
+				{text:'Ad Art', href:'#'},
+				{text:'Web Art', href:'#'}
+			]
+		}
+	];
+// create elements that will be cloned later
+	var newUl = document.createElement('ul');
+	var newLi = document.createElement('li');
+	var newA = document.createElement('a');
+// cycle through the menus array to create the submenus
+	for(var i=0; i<menus.length; i++) {
+		var u = newUl.cloneNode(false);					// clone the ul for the first submenu
+		u.className="subMenu";							// append a className to the ul
+		var pl = document.getElementById(menus[i].itemId);		// get the parent li by id
+		for (var j=0; j<menus[i].menuItems.length; j++) {		// cycle through the submenu array
+			var l = newLi.cloneNode(false);				//clone the li for the submenu li
+			var a = newA.cloneNode(false);				//clone the a for the submenu link
+			a.appendChild(document.createTextNode(menus[i].menuItems[j].text));		// append the text to the a
+			a.href=menus[i].menuItems[j].href;			// set the href for the a
+			l.appendChild(a);							// append the a to the li
+			u.appendChild(l);							// append the li to the u
+		}
+		u.lastChild.className="last";					// append a className to the last li of the nested ul
+		pl.appendChild(u);								// append the nested ul to the parent li
+
+	}
+}
+function activateMenu(){
+	if (!document.all && !document.getElementById) return false;
+	var navRoot = document.getElementById('dyMenu');
+	var node = navRoot.getElementsByTagName('LI');
+	for (var i=0; i< node.length; i++){
+		node[i].oldClass = node[i].className;
+		node[i].onmouseover = function(){
+			addClass(this,"over");
+		}
+		node[i].onmouseout= function(){
+			this.className = this.oldClass;
+		}
+	}
+}
+function addClass(element,value) {
+  if (!element.className) {
+    element.className = value;
+  } else {
+    newClassName = element.className;
+    newClassName+= " ";
+    newClassName+= value;
+    element.className = newClassName;
+  }
+}
+
+function addLoadEvent(func)
+{
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function')
+	{
+		window.onload= func;
+	}
+	else 
+	{
+		window.onload = function()
+		{
+			oldonload();
+			func();
+		}
+	}
+}
+addLoadEvent(initHeaderScripts);
+
+
+
+// setHover is used to make IE6 and earlier behave by inserting an IFRAME
+// to "shim" the drop-downs above form select controls and media objects.
+fHover = function() {
+	// Support the standard nav without a class of nav.
+	if(!document.getElementById("dyMenu")) return;
+	var el = document.getElementById("dyMenu");
+	setHover(el);
+}
+function setHover(nav) {
+	var ieULs = nav.getElementsByTagName('ul');
+	if (navigator.appVersion.substr(22,3)!="5.0") {
+		// IE script to cover <select> elements with <iframe>s
+		for (j=0; j<ieULs.length; j++) {
+			var ieMat=document.createElement('iframe');
+			if(document.location.protocol == "https:")
+				ieMat.src="//0";
+			else if(window.opera != "undefined")
+				ieMat.src="";
+			else
+			ieMat.src="javascript:false";
+			ieMat.scrolling="no";
+			ieMat.frameBorder="0";
+			ieMat.style.width=ieULs[j].offsetWidth+"px";
+			ieMat.style.height=ieULs[j].offsetHeight+"px";
+			ieMat.style.zIndex="-1";
+			ieULs[j].insertBefore(ieMat, ieULs[j].childNodes[0]);
+			ieULs[j].style.zIndex="101";
+		}
+
+	}
+	 else {
+		// IE 5.0 doesn't support iframes so hide the select statements on hover and show on mouse out.
+		// IE script to change class on mouseover
+		var ieLIs = document.getElementById('dyMenu').getElementsByTagName('li');
+		for (var i=0; i<ieLIs.length; i++) if (ieLIs[i]) {
+			ieLIs[i].onmouseover=function() {this.className+=" over";hideSelects();}
+			ieLIs[i].onmouseout=function() {this.className=this.className.replace(new RegExp(' over\\b'), '');showSelects()}
+		}
+	}
+}
+
+// If IE 5.0 hide and show the select statements.
+function hideSelects(){
+	var oSelects=document.getElementsByTagName("select");
+	for(var i=0;i<oSelects.length;i++)
+		oSelects[i].className+=" hide";
+}
+
+function showSelects(){
+	var oSelects=document.getElementsByTagName("select");
+	for(var i=0;i<oSelects.length;i++)
+		oSelects[i].className=oSelects[i].className.replace(" hide","");
+}
+
+// use IE attachEvent to ensure that only IE runs it.
+if (window.attachEvent) window.attachEvent('onload', sfHover);
+// end
+</script>
+</body>
+</html>
