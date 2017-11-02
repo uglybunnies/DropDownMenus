@@ -22,36 +22,37 @@ h1 {
 .nav-menu li {
     box-sizing: border-box;
 	position: relative;
-	float: left;
+	display: inline-block;
     margin: 0;
-	padding: 3px 2px 3px 3px;
-	width: 108px;
 	text-align: center;
 	border: solid #fff;
 	border-width: 0 1px 0 0;
 	background: #396;
+    transition: background-color 100ms ease-in;
+}
+li.nav-item {
+    margin-right: -.3em;
 }
 .nav-item a {
+    display: block;
 	font-weight: 700;
+	padding: .25em 1em;
 	text-decoration: none;
 	color: #ffa;
 }
-.sub-nav, .subMenu li {
-    transition: background-color 100ms ease-in;
-}
-.sub-nav.over, .subMenu li:hover {
+.nav-menu li:hover {
 	background: #6b9;
     transition-timing-function: ease-out;
 }
 .nav-item ul.subMenu {
     position: absolute;
-    float: none;
+    display: block;
 	margin: 0;
 	padding: 0;
     top: 24px;
-    left: 0;
+    left: -.2em;
 	z-index: 1100;
-	width: auto;
+	width: 144px;
 	height: 0;
     overflow: hidden;
 	list-style: none;
@@ -61,7 +62,7 @@ h1 {
 	transition-timing-function: ease-out;
 }
 .nav-item ul.subMenu li {
-    float: none;
+    display: list-item;
     margin: 0;
     border-width: 1px 1px 0 1px;
 	text-align: left;
@@ -71,7 +72,5 @@ h1 {
 }
 .nav-item ul.subMenu li a {
     padding: 4px 2px 4px 9px;
-    display: block;
-    width: 108px;
     border-width: 0 0 0 0;
 }
