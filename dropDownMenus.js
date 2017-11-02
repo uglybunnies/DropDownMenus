@@ -14,11 +14,11 @@
                 var subNav = el.querySelectorAll('.subMenu');
                 el.addEventListener('mouseover', function() {
                     el.classList.add('over');
-                    subNav[0].setAttribute('style', 'height: ' + subNav[0].scrollHeight + 'px;');
+                    subNav[0].style.height = subNav[0].scrollHeight + 'px';
                 });
                 el.addEventListener('mouseout', function() {
                     el.classList.remove('over');
-                    subNav[0].setAttribute('style', 'height: 0;');
+                    subNav[0].style.height = '0';
                 });
             });
         },
