@@ -1,11 +1,11 @@
 Dynamic Dropdown Menus
 ======================
-This is the sample implementation of my simple dyanmic dropdown menu system.
+This is the sample implementation of my simple dynamic dropdown menu system.
 
 
 Copyright and License
 =====================
-Dynamic Dropdown is Copyright 2009 Michael Wong
+Dynamic Dropdown is Copyright 2017 Michael Wong
 
 Licensed under the **[Apache License, Version 2.0] [license]** (the "License"); you may not use this software except in compliance with the License.
 
